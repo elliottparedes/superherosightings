@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous"/>
+    
+    </head>
+    <body>
+        
+    <!-- Navbar -->
+    <nav th:insert="index :: navbar">
+
+    </nav>
+    <!-- Navbar -->
+    
+    
+    <div class="container">
+       
+        <div class="row mt-4">
+            <div class="col text-center">
+                <h6>All Sightings</h6>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <table class ="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sighting ID</th>
+                            <th scope="col">Location</th>
+                            <th scope="col">Superhuman Name</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Edit</th>
+                             <th scope="col">Delete</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="sighting: ${sightings}">
+                            
+                            <td th:text="${sighting.getId()}"></td>
+                            <td th:text="${sighting.getLocation().getName() + ', ' + sighting.getLocation.getAddress()}"></td>
+                            <td th:text="${sighting.getSuperHuman().getName()}"></td>
+                            <td th:text="${#temporals.format(sighting.getDate(),'MM-dd-yy h:mm:a')}"></td>
+                            <td><a href="#" th:href="@{/editSighting(sightingId=${sighting.getId()},superhumanId=${sighting.getSuperHuman().getId()} )}"><button class="btn btn-primary">edit</button></a></td>
+                            <td><a href="#" th:href="@{/deleteSighting(id=${sighting.getId()})}"><button class="btn btn-danger">delete</button></a></td>
+                        </tr>
+                        
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Add Sightings -->
+        <div class="row m-4 border border-dark">
+            <div class="col-3 text-center m-3">
+                <span class="h3">Add Sighting</span>
+            </div>
+            <div class="col-7 text-center m-3">
+                <form action="addSighting" method="POST">
+                    <div class="form-group row">
+                        <label for="location" class="col-3 col-form-label">Location</label>
+                        <div class="col-9">
+                            <select  id="location" name="location"  th:value="*{''}" th:required=required>
+                                <option value="">Select Location</option>
+                                <option th:each="location: ${locations}"  th:value="${location.getId()}" th:text="${location.getName()}"></option>
+                              
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="name" class="col-3 col-form-label">Superhuman Name</label>
+                        <div class="col-9">
+                            <select  id="name" name="name"  th:value="*{''}" th:required=required>
+                                <option value="">Select Superhuman</option>
+                                <option th:each="superhuman: ${superhumans}"  th:value="${superhuman.getId()}" th:text="${superhuman.getName()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="date" class="col-3 col-form-label">Date</label>
+                        <div class="col-9">    
+                                <input type="date" class="form-control" id="date" name="date" placeholder ="date"  th:value="*{''}" th:required=required /> 
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="time" class="col-3 col-form-label">Time</label>
+                        <div class="col-9">
+                            <input type="time" class="form-control" id="time" name="time" placeholder ="time"  th:value="*{''}" th:required=required /> 
+                        </div>
+                    </div> 
+                    <button type="submit" class="btn btn-primary">Add Sighting</button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    
+    
+    
+
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    </body>
+</html>
